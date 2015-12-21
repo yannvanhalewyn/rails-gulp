@@ -19,3 +19,6 @@ node_modules/
 public/js
 public/css
 .vagrant
+shared/log/*.log
+shared/pid/*.pid
+shared/sockets/*.sock
