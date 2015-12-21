@@ -20,5 +20,5 @@ public/js
 public/css
 .vagrant
 shared/log/*.log
-shared/pid/*.pid
+shared/pids/*.pid
 shared/sockets/*.sock
