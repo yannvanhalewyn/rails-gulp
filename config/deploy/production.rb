@@ -5,6 +5,38 @@
 
 server '77.77.77.7', user: 'deploy', roles: %w{app db web}
 
+namespace :upstart do
+  desc "Copy unicorn upstart script to /etc/init"
+  task :copy_config do
+    on roles(:app) do |host|
+      unicorn = File.join(current_path, "config", "unicorn_railsapp.conf")
+      sudo :cp, unicorn, "/etc/init/"
+    end
+  end
+
+  task :restart do
+    on roles(:app) do |host|
+      sudo 'restart unicorn_railsapp'
+    end
+  end
+end
+
+task :upstart do
+  invoke 'upstart:copy_config'
+  invoke 'upstart:restart'
+end
+
+namespace :npm do
+  task :install do
+    on roles(:app) do |host|
+      execute "cd #{current_path} && npm install"
+    end
+  end
+end
+
+after 'deploy:finished', 'npm:install'
+after 'deploy:finished', 'upstart'
+
 # Custom SSH Options
 # ==================
 # You may pass any option but keep in mind that net/ssh understands a
