@@ -32,4 +32,6 @@ gulp.task('js:watch', function() {
   gulp.watch('app/assets/javascripts/**/*', ['js'])
 });
 
+gulp.task('production', ['css', 'js'])
+
 gulp.task('default', ['js:watch', 'css:watch']);
